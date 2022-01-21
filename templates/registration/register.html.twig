@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block body %}
+<style>
+	.example-wrapper {
+		margin: 1em auto;
+		max-width: 800px;
+		width: 95%;
+		font: 18px / 1.5 sans-serif;
+	}
+
+	.example-wrapper code {
+		background: #F5F5F5;
+		padding: 2px 6px;
+	}
+</style>
+{% for flashError in app.flashes('verify_email_error') %}
+	<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+<div class="example-wrapper">
+	<center class="mb-5">
+		<h1>Inscription</h1>
+	</center>
+
+	{{ form_start(registrationForm) }}
+	{{ form_row(registrationForm.username, {'label': 'Nom d\'utilisateur :','attr':{'placeholder':'Votre nom','class':'form-control mb-4'}}) }}
+	{{ form_row(registrationForm.plainPassword, {'label': 'Votre mot de passe :','attr':{'placeholder':'Mot de passe','class':'form-control mb-4'}}) }}
+	{{ form_row(registrationForm.avatar) }}
+	{{ form_row(registrationForm.agreeTerms, { label: 'Accepter les termes', 'attr': {'class': 'form-check-input ms-3'}}) }}
+
+		<button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
+		{{ form_end(registrationForm) }}
+	</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	<form method="post" class="example-wrapper">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+
+		
+
+		<center>
+			<h1 class="h3 mb-3 font-weight-normal">Connectez-vous :</h1>
+		</center>
+          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mt-5">
+            <p class="lead fw-normal mb-0 me-3">Avec : </p>
+            <button type="button" class="btn btn-primary btn-floating mx-1">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+
+            <button type="button" class="btn btn-primary btn-floating mx-1">
+              <i class="fab fa-google"></i>
+            </button>
+
+            <button type="button" class="btn btn-primary btn-floating mx-1">
+              <i class="fab fa-github"></i>
+            </button>
+          </div>
+<center><hr class="w-75 mt-5"></hr></center>
+
+          {# <div class="divider d-flex align-items-center my-4"> #}
+            <center><p class="text-center fw-bold mx-5 mb-0">Ou</p></center>
+          {# </div> #}
+<center><hr class="w-75 mb-5"></hr></center>
+
+
+		<label for="inputUsername">Votre pseudo :</label>
+		<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control mb-4" autocomplete="username" required autofocus>
+		<label for="inputPassword">Votre mot de passe :</label>
+		<input type="password" name="password" id="inputPassword" class="form-control mb-3" autocomplete="current-password" required>
+
+		<input
+		type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+		
+		        {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+		        See https://symfony.com/doc/current/security/remember_me.html
+		 #}
+		        <div class="checkbox mb-3">
+		            <label>
+		                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+		            </label>
+		        </div>
+		   
+
+		<button class="btn btn-lg btn-primary" type="submit">
+			Connecter
+		</button>
+        <p class="mt-3">Vous n'avez pas de compte ? <a href="{{ path('app_register')}}">
+			enregistrez-vous</a></p><br><br>
+	</form>
+{% endblock %}
