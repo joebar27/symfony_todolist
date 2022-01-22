@@ -24,7 +24,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez acceptez les termes.',
                     ]),
                 ],
             ])
@@ -35,11 +35,11 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Merci d\'entrer un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit être de minimum {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -48,25 +48,18 @@ class RegistrationFormType extends AbstractType
         
         ->add('avatar', FileType::class, [
             'label' => 'Votre Avatar :',
-
-            // unmapped means that this field is not associated to any entity property
             'mapped' => false,
-
-            // make it optional so you don't have to re-upload the PDF file
-            // every time you edit the Product details
             'required' => false,
-
-            // unmapped fields can't define their validation using annotations
-            // in the associated entity, so you can use the PHP constraint classes
             'constraints' => [
                 new File([
-                    'maxSize' => '512k',
+                    'maxSize' => '128k',
                     'mimeTypes' => [
-                        'application/jpg',
-                        'application/jpeg',
-                        'application/svg',
+                        'image/jpg',
+                        'image/jpeg',
+                        'image/svg',
+                        'image/png',
                     ],
-                    'mimeTypesMessage' => 'Merci de choisir un avatar valide',
+                    'mimeTypesMessage' => 'Merci de choisir un avatar valide ".jpg ,.jpeg ,.svg ,.png" et inférieur a 128Ko.',
                 ])
             ],
         ])

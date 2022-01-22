@@ -26,12 +26,18 @@
 	</center>
 
 	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.username, {'label': 'Nom d\'utilisateur :','attr':{'placeholder':'Votre nom','class':'form-control mb-4'}}) }}
-	{{ form_row(registrationForm.plainPassword, {'label': 'Votre mot de passe :','attr':{'placeholder':'Mot de passe','class':'form-control mb-4'}}) }}
-	{{ form_row(registrationForm.avatar) }}
-	{{ form_row(registrationForm.agreeTerms, { label: 'Accepter les termes', 'attr': {'class': 'form-check-input ms-3'}}) }}
+	{{ form_row(registrationForm.username, {'label': 'Nom d\'utilisateur : *','attr':{'placeholder':'Votre nom','class':'form-control mb-4'}}) }}
+	{{ form_row(registrationForm.plainPassword, {'label': 'Votre mot de passe : *','attr':{'placeholder':'Mot de passe','class':'form-control mb-4'}}) }}
+	{# {{ form_row(registrationForm.plainPassword, {'label': 'Saisir a nouveau votre mot de passe : *','attr':{'placeholder':'Mot de passe','class':'form-control mb-4'}}) }} #}
+	{{ form_row(registrationForm.avatar, {'attr':{'class':'form-control mb-4'}}) }}
+	<center>{{ form_row(registrationForm.agreeTerms, { label: 'Accepter les termes', 'attr': {'class': 'form-check-input ms-3'}}) }}</center>
+{# {% if (registrationForm.plainPassword)%} #}
+	<center><button type="submit" class="btn btn-primary mt-3">Enregistrer</button></center>
+{# {% endif %} #}
+	{{ form_end(registrationForm) }}
 
-		<button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
-		{{ form_end(registrationForm) }}
-	</div>
+	<p class="mt-3">Vous avez déjà un compte ? <a href="{{ path('app_login')}}">
+			Connectez-vous</a></p>
+	<p class="d-flex justify-content-end fs-6">< * champs obligatoire ><p>
+</div>
 {% endblock %}

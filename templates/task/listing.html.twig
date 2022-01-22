@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Les Tâches
+{% block title %}
+	Les Tâches
 {% endblock %}
 
 {% block stylesheets %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+	{# <link rel="stylesheet" type="text/css" href="templates/Css/template.css"/> #}
 {% endblock %}
 
 {% block javascripts %}
@@ -45,8 +47,8 @@ sortDescending: ": activer pour trier la colonne par ordre décroissant"
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
+			/* max-width: 1000px; */
+			width: 75%;
 			font: 18px / 1.5 sans-serif;
 		}
 
@@ -54,19 +56,37 @@ sortDescending: ": activer pour trier la colonne par ordre décroissant"
 			background: #F5F5F5;
 			padding: 2px 6px;
 		}
-	</style>
 
+		.avatar {
+			width: auto;
+			height: 70px;
+			border-radius: 8px;
+		}
+
+		.logoTitle {
+			width: 100px;
+		}
+	</style>
 	{% if app.user %}
-		<div class="mb-3">
-			Bonjour
-			{{ app.user.username }},
-			<a href="{{ path('app_logout') }}">Déconnection</a>
+	<div class="position-relative">
+		<div class="position-absolute top-0 end-0 d-flex flex-wrap align-items-center mt-1 me-3">
+			<h5 class="me-2">Bonjour,</h5>
+			<div class="d-flex flex-column align-items-center me-2">
+			{% if app.user.avatar %}
+				<img class="avatar" src="../../../src/uploads/avatar/{{ app.user.avatar }}" alt="avatar de l'utilisateur">
+			{% endif %}
+			<h5>{{ app.user.username }}</h5>
+			</div>
+			<a href="{{ path('app_logout') }}"><button class="btn btn-danger">Déconnection</button></a>
 		</div>
+	</div>
 	{% endif %}
 
 	<div class="example-wrapper">
-		<center>
-			<h1>✅ Les tâches ✅</h1><br></center>
+		<div class="d-flex flex-wrap justify-content-center">
+			<h1 class="d-flex align-items-center"> Vos tâches </h1>
+			<img class="logoTitle" src="../../../src/uploads/liste-taches.jpg" alt="logo de liste de tache"/>
+		</div>
 
 		<a href="{{ path('task_create' )}}">
 			Ajouter une tache</a><br><br>

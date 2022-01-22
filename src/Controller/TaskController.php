@@ -20,13 +20,13 @@ use App\Entity\Categories;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task', name: 'task')]
-    public function index(): Response
-    {
-        return $this->render('task/index.html.twig', [
-            'controller_name' => 'TaskController',
-        ]);
-    }
+    // #[Route('/task', name: 'task')]
+    // public function index(): Response
+    // {
+    //     return $this->render('task/index.html.twig', [
+    //         'controller_name' => 'TaskController',
+    //     ]);
+    // }
 
     #[Route('/task/create', name: 'task_create')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
@@ -35,7 +35,7 @@ class TaskController extends AbstractController
         $entityManager = $doctrine->getManager();
         // creates l'objet Task et initialise les datas
         $task = new Task();
-        $task->setNameTask('Write a blog post');
+        $task->setNameTask('Titre de votre tâche à faire ici');
         $task->setDueDateTask(new \DateTime('now'));
 
         $form = $this->createFormBuilder($task)
@@ -121,6 +121,21 @@ class TaskController extends AbstractController
 
     #[Route('/task/delete/{id}', name: 'task_delete')]
     public function remove(ManagerRegistry $doctrine, int $id): Response
+    {
+        $entityManager = $doctrine->getManager();
+
+        $task = $entityManager->getRepository(task::class)->find($id);
+        
+        $entityManager->remove($task);
+        $entityManager->flush();
+
+        $this->addFlash('danger', 'Tâche Supprimée avec succes');
+
+        return $this->redirectToRoute('task_listing');
+    }
+    
+    #[Route('/task/profil/{id}', name: 'task_profil')]
+    public function profil(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
 
