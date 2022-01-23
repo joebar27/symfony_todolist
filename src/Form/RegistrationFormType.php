@@ -45,24 +45,23 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        
-        ->add('avatar', FileType::class, [
-            'label' => 'Votre Avatar :',
-            'mapped' => false,
-            'required' => false,
-            'constraints' => [
-                new File([
-                    'maxSize' => '128k',
-                    'mimeTypes' => [
-                        'image/jpg',
-                        'image/jpeg',
-                        'image/svg',
-                        'image/png',
-                    ],
-                    'mimeTypesMessage' => 'Merci de choisir un avatar valide ".jpg ,.jpeg ,.svg ,.png" et inférieur a 128Ko.',
-                ])
-            ],
-        ])
+            ->add('avatar', FileType::class, [
+                'label' => 'Votre Avatar :',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '128k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/svg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Merci de choisir un avatar valide ".jpg ,.jpeg ,.svg ,.png" et inférieur a 128Ko.',
+                    ])
+                ],
+            ])
     ;
     }
 

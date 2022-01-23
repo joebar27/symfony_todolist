@@ -2,31 +2,30 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
-
+use App\Entity\Task;
+// use App\Entity\User;
+use App\Entity\Categories;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Task;
-use App\Entity\Categories;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    // #[Route('/task', name: 'task')]
-    // public function index(): Response
-    // {
-    //     return $this->render('task/index.html.twig', [
-    //         'controller_name' => 'TaskController',
-    //     ]);
-    // }
+    #[Route('/task', name: 'task')]
+    public function index(): Response
+    {
+        return $this->render('task/index.html.twig', [
+            'controller_name' => 'TaskController',
+        ]);
+    }
 
     #[Route('/task/create', name: 'task_create')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
@@ -35,16 +34,49 @@ class TaskController extends AbstractController
         $entityManager = $doctrine->getManager();
         // creates l'objet Task et initialise les datas
         $task = new Task();
-        $task->setNameTask('Titre de votre tâche à faire ici');
+        $task->setNameTask('Titre de votre tâche à faire');
         $task->setDueDateTask(new \DateTime('now'));
+        $task->setUser($this->getUser());
 
         $form = $this->createFormBuilder($task)
-            ->add('nameTask', TextType::class, ['label' => 'Nom de la tâche :', 'attr' => ['class' => 'form-control mb-4']])
-            ->add('descriptionTask', TextareaType::class, ['label' => 'Description de la tâche :','attr' => ['class' => 'form-control mb-4']])
-            ->add('dueDateTask', DateType::class, ["widget"=>"single_text",'label' => 'Date création de la tâche :','attr' => ['class' => 'form-control mb-4']])
-            ->add('priorityTask', ChoiceType::class, ['label' => 'Priorité de la tâche :','choices' => ['Haute' => 'Haute','Normal' => 'Normal','Basse' => 'Basse',], 'attr' => ['class' => 'form-select mb-4'],])
-            ->add('category', EntityType::class, ['label' => 'Catégorie de la tâche :', 'class' => Categories::class,'choice_label' => 'libelleCategory', 'attr' => ['class' => 'form-select mb-4'],])
-            ->add('save', SubmitType::class, ['label' => 'Créé la tâche','attr' => ['class' => 'btn btn-primary']])
+            ->add('nameTask', TextType::class, [
+                'label' => 'Nom de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('descriptionTask', TextareaType::class, [
+                'label' => 'Description de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('dueDateTask', DateType::class, [
+                "widget"=>"single_text",
+                'label' => 'Date d\'éxecution de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('priorityTask', ChoiceType::class, [
+                'label' => 'Priorité de la tâche :',
+                'choices' => [
+                    'Haute' => 'Haute',
+                    'Normal' => 'Normal',
+                    'Basse' => 'Basse'
+                ],
+                'attr' => [
+                    'class' => 'form-select mb-4'
+                ]])
+            ->add('category', EntityType::class, [
+                'label' => 'Catégorie de la tâche :',
+                'class' => Categories::class,
+                'choice_label' => 'libelleCategory',
+                'attr' => [
+                    'class' => 'form-select mb-4'
+                ]])
+            ->add('save', SubmitType::class, [
+                'label' => 'Créé la tâche',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                    ]])
             ->getForm();
 
         $form->handleRequest($request);
@@ -88,12 +120,44 @@ class TaskController extends AbstractController
         $task = $entityManager->getRepository(task::class)->find($id);
 
         $form = $this->createFormBuilder($task)
-            ->add('nameTask', TextType::class, ['label' => 'Nom de la tâche :', 'attr' => ['class' => 'form-control mb-4']])
-            ->add('descriptionTask', TextareaType::class, ['label' => 'Description de la tâche :','attr' => ['class' => 'form-control mb-4']])
-            ->add('dueDateTask', DateType::class, ["widget"=>"single_text",'label' => 'Date création de la tâche :','attr' => ['class' => 'form-control mb-4']])
-            ->add('priorityTask', ChoiceType::class, ['label' => 'Priorité de la tâche :','choices' => ['Haute' => 'Haute','Normal' => 'Normal','Basse' => 'Basse',], 'attr' => ['class' => 'form-select mb-4'],])
-            ->add('category', EntityType::class, ['label' => 'Catégorie de la tâche :', 'class' => Categories::class,'choice_label' => 'libelleCategory', 'attr' => ['class' => 'form-select mb-4'],])
-            ->add('save', SubmitType::class, ['label' => 'Modifier la tâche','attr' => ['class' => 'btn btn-primary']])
+            ->add('nameTask', TextType::class, [
+                'label' => 'Nom de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('descriptionTask', TextareaType::class, [
+                'label' => 'Description de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('dueDateTask', DateType::class, [
+                'widget'=>'single_text',
+                'label' => 'Date création de la tâche :',
+                'attr' => [
+                    'class' => 'form-control mb-4'
+                    ]])
+            ->add('priorityTask', ChoiceType::class, [
+                'label' => 'Priorité de la tâche :',
+                'choices' => [
+                    'Haute' => 'Haute',
+                    'Normal' => 'Normal',
+                    'Basse' => 'Basse',
+                ], 
+                'attr' => [
+                    'class' => 'form-select mb-4'
+                ]])
+            ->add('category', EntityType::class, [
+                'label' => 'Catégorie de la tâche :',
+                'class' => Categories::class,
+                'choice_label' => 'libelleCategory',
+                'attr' => [
+                    'class' => 'form-select mb-4'
+                    ]])
+            ->add('save', SubmitType::class, [
+                'label' => 'Modifier la tâche',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                    ]])
             ->getForm();
 
         $form->handleRequest($request);
@@ -134,18 +198,5 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_listing');
     }
     
-    #[Route('/task/profil/{id}', name: 'task_profil')]
-    public function profil(ManagerRegistry $doctrine, int $id): Response
-    {
-        $entityManager = $doctrine->getManager();
-
-        $task = $entityManager->getRepository(task::class)->find($id);
-        
-        $entityManager->remove($task);
-        $entityManager->flush();
-
-        $this->addFlash('danger', 'Tâche Supprimée avec succes');
-
-        return $this->redirectToRoute('task_listing');
-    }
+    
 }

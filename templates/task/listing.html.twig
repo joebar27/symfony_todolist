@@ -79,6 +79,8 @@ sortDescending: ": activer pour trier la colonne par ordre décroissant"
 			</div>
 			<a href="{{ path('app_logout') }}"><button class="btn btn-danger">Déconnection</button></a>
 		</div>
+		{# <a href="{{ path('security_profil',{'id': app.user.username} )}}"> #}
+			{# modifier votre profil</a> #}
 	</div>
 	{% endif %}
 
@@ -106,10 +108,10 @@ sortDescending: ": activer pour trier la colonne par ordre décroissant"
 				</tr>
 			</thead>
 			<tbody>
-				{% for task in tasks %}
+				{% for task in app.user.getTasks %}
 					<tr>
-						<th>{{ task.getIdTask() }}</th>
-						<td>{{ task.getNameTask() }}</td>
+						<th>{{task.getIdTask()}}</th>
+						<td>{{task.getNameTask()}}</td>
 						<td>{{task.getDescriptionTask()}}</td>
 						<td>{{task.getPriorityTask()}}</td>
 						<td>{{task.getDueDateTask()|date}}</td>
@@ -126,7 +128,7 @@ sortDescending: ": activer pour trier la colonne par ordre décroissant"
 						</td>
 					</tr>
 				{% endfor %}
-
+				
 			</tbody>
 		</table>
 	</div>

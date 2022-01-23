@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TaskController!
+{% block title %}Création d'une tâche
 {% endblock %}
 
 {% block body %}
@@ -16,14 +16,33 @@
 			background: #F5F5F5;
 			padding: 2px 6px;
 		}
+		.avatar {
+			width: auto;
+			height: 70px;
+			border-radius: 8px;
+		}
 	</style>
-
+{% if app.user %}
+	<div class="position-relative">
+		<div class="position-absolute top-0 end-0 d-flex flex-wrap align-items-center mt-1 me-3">
+			{# <h5 class="me-2">{{ app.user.id }}</h5> #}
+			<div class="d-flex flex-column align-items-center me-2">
+			{% if app.user.avatar %}
+				<img class="avatar" src="../../../src/uploads/avatar/{{ app.user.avatar }}" alt="avatar de l'utilisateur">
+			{% endif %}
+			<h5>{{ app.user.username }}</h5>
+			</div>
+			<a href="{{ path('app_logout') }}"><button class="btn btn-danger">Déconnection</button></a>
+		</div>
+	</div>
+	{% endif %}
 	<div class="example-wrapper">
+	
 		<h1>Création d'une tache</h1>
 		<a href="{{ path('task_listing')}}">
 			Liste des tâches</a><br><br>
 
 		{{form(form)}}
 
-		</div>
-	{% endblock %}
+	</div>
+{% endblock %}
