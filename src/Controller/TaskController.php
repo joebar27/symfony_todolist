@@ -32,10 +32,11 @@ class TaskController extends AbstractController
     {
         // mise en place du gestionnaire de BDD :
         $entityManager = $doctrine->getManager();
-        // creates l'objet Task et initialise les datas
+        // cree l'objet Task et initialise les datas
         $task = new Task();
         $task->setNameTask('Titre de votre tâche à faire');
         $task->setDueDateTask(new \DateTime('now'));
+        //recuperation de l'utilisateur connecter
         $task->setUser($this->getUser());
 
         $form = $this->createFormBuilder($task)
